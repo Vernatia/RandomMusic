@@ -190,6 +190,20 @@ function clearSongs(channelID, keyword, rows) {
 	}
 }
 
+/**
+ * 
+ * @param {*} delay 
+ */
+var totalTimeDelay = 0;
+function heartbeat(delay) {
+	console.log((totalTimeDelay / 60000) + ' minutes: Bot is still active');
+	
+	totalTimeDelay += delay;
+	setTimeout(() => {
+		heartbeat(delay)
+	}, delay);
+}
+
 // Initialize Discord Bot
 var bot = new Discord.Client({
    token: auth.token,
@@ -295,6 +309,8 @@ bot.on('ready', function (evt) {
 		);
 		return false;
 	};
+
+	heartbeat(60000);
 });
 
 /**
