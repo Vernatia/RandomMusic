@@ -1,5 +1,5 @@
 # RandomMusic
-A Discord bot that outputs random links
+A Discord bot that outputs random links, the list is unique to each Discord user ID.
 
 # Warning
 The links and data used by this bot are stored locally on the server running the bot.  
