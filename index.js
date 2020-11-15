@@ -8,14 +8,14 @@ const db = new SQLite.Database('music.sqlite');
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
-    colorize: true
+	colorize: true
 });
 logger.level = 'warn';
 
 /**
- * 
- * @param {int} min 
- * @param {int} max 
+ *
+ * @param {int} min
+ * @param {int} max
  */
 function getRandomInt(min, max) {
 	min = Math.ceil(min);
@@ -24,9 +24,9 @@ function getRandomInt(min, max) {
 }
 
 /**
- * @param {string} channelID 
- * @param {string} keyword 
- * @param {[]} rows 
+ * @param {string} channelID
+ * @param {string} keyword
+ * @param {[]} rows
  */
 function outputSong(channelID, keyword, rows) {
 	if (rows.length == 0) {
@@ -47,10 +47,10 @@ function outputSong(channelID, keyword, rows) {
 				fields: [
 					{
 						name: 'Rythm bot:',
-						value: '!play ' + rows[i].url
+						value: '!play ' + rows[i].url + "\n" + '!loop'
 					}, {
 						name: 'Groovy bot:',
-						value: '-play ' + rows[i].url
+						value: '-play ' + rows[i].url + "\n" + '-ls'
 					}, {
 						name: 'Just the song:',
 						value: rows[i].url
@@ -62,7 +62,7 @@ function outputSong(channelID, keyword, rows) {
 }
 
 /**
- * @param {string} channelID 
+ * @param {string} channelID
  */
 function saveSong(channelID) {
 	bot.sendMessage({
@@ -97,10 +97,10 @@ function removeSong(channelID, rows) {
 }
 
 /**
- * 
+ *
  * @param {string} channelID
  * @param {string} keyword
- * @param {[]} rows 
+ * @param {[]} rows
  */
 function displaySongs(channelID, keyword, rows) {
 	if (rows.length == 0) {
@@ -130,9 +130,9 @@ function displaySongs(channelID, keyword, rows) {
 }
 
 /**
- * 
+ *
  * @param {string} channelID
- * @param {[]} rows 
+ * @param {[]} rows
  */
 function displayKeywords(channelID, rows) {
 	if (rows.length == 0) {
@@ -162,10 +162,10 @@ function displayKeywords(channelID, rows) {
 }
 
 /**
- * 
- * @param {string} channelID 
- * @param {string} keyword 
- * @param {[]} rows 
+ *
+ * @param {string} channelID
+ * @param {string} keyword
+ * @param {[]} rows
  */
 function clearSongs(channelID, keyword, rows) {
 	if (rows.length == 0) {
@@ -197,10 +197,10 @@ var bot = new Discord.Client({
 });
 bot.messageIdentifier = '~';
 bot.on('ready', function (evt) {
-    logger.info('Connected');
-    logger.info('Logged in as: ');
+	logger.info('Connected');
+	logger.info('Logged in as: ');
 	logger.info(bot.username + ' - (' + bot.id + ')');
-	
+
 	db.serialize(function() {
 		bot.dbExists = false;
 		db.each("SELECT count(*) AS count FROM sqlite_master WHERE type = 'table' AND name = 'music'", function(err, row) {
@@ -244,7 +244,7 @@ bot.on('ready', function (evt) {
 		);
 		return false;
 	};
-	
+
 	bot.setMusic = function (channelID, userID, keyword, url) {
 		bot.insertStatement.run(
 			{
@@ -258,7 +258,7 @@ bot.on('ready', function (evt) {
 		)
 		return false;
 	};
-	
+
 	bot.removeMusic = function (channelID, userID, musicID) {
 		bot.selectOneStatement.all(
 			{
@@ -270,7 +270,7 @@ bot.on('ready', function (evt) {
 		);
 		return false;
 	};
-	
+
 	bot.listMusic = function(channelID, userID, keyword) {
 		bot.selectStatement.all(
 			{
@@ -283,7 +283,7 @@ bot.on('ready', function (evt) {
 		);
 		return false;
 	};
-	
+
 	bot.listKeywords = function(channelID, userID) {
 		bot.selectKeywordsStatement.all(
 			{
@@ -305,16 +305,16 @@ bot.on('ready', function (evt) {
  * @param WebSocketEvent evt	A thingamabob
  */
 bot.on('message', function (user, userID, channelID, message, evt) {
-    // Our bot needs to know if it will execute a command
-    // It will listen for messages that will start with `!`
-    if (message.substring(0, 1) == bot.messageIdentifier) {
-        var args = message.substring(1).split(' ');
-        var cmd = args[0];
-       
+	// Our bot needs to know if it will execute a command
+	// It will listen for messages that will start with `!`
+	if (message.substring(0, 1) == bot.messageIdentifier) {
+		var args = message.substring(1).split(' ');
+		var cmd = args[0];
+
 		var keyword = args[1];
 		var url = args[2];
-		
-        switch(cmd) {
+
+		switch(cmd) {
 			case 'clear':
 				if (args.length != 2 || !keyword.trim()) {
 					bot.sendMessage({
@@ -335,36 +335,36 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 						fields: [
 							{
 								'name': 'Clear',
-								'value': 'Clears all songs assigned to a keyword' + "\n" 
+								'value': 'Clears all songs assigned to a keyword' + "\n"
 									+ 'Usage: ' + bot.messageIdentifier + 'clear <keyword>'
 							}, {
 								'name': 'Help',
-								'value': 'Displays all the commands' + "\n" 
+								'value': 'Displays all the commands' + "\n"
 									+ 'Usage: ' + bot.messageIdentifier + 'help'
 							}, {
 								'name': 'Keywords',
-								'value': 'Displays all keywords you have assigned songs to' + "\n" 
+								'value': 'Displays all keywords you have assigned songs to' + "\n"
 									+ 'Usage: ' + bot.messageIdentifier + 'keywords'
 							}, {
 								'name': 'List',
-								'value': 'Displays all songs and IDs assigned to a keyword' + "\n" 
+								'value': 'Displays all songs and IDs assigned to a keyword' + "\n"
 									+ 'Usage: ' + bot.messageIdentifier + 'list <keyword>'
 							}, {
 								'name': 'Ping',
-								'value': 'Returns a message to test for connectivity' + "\n" 
+								'value': 'Returns a message to test for connectivity' + "\n"
 									+ 'Usage: ' + bot.messageIdentifier + 'ping'
 							}, {
 								'name': 'Play',
-								'value': 'Returns a singular, random, options assigned to a keyword' + "\n" 
+								'value': 'Returns a singular, random, options assigned to a keyword' + "\n"
 									+ 'There will be options for Rythm and Groovy bot commands for ease of use' + "\n"
 									+ 'Usage: ' + bot.messageIdentifier + 'play <keyword>'
 							}, {
 								'name': 'Store',
-								'value': 'Saves a song against a keyword' + "\n" 
+								'value': 'Saves a song against a keyword' + "\n"
 									+ 'Usage: ' + bot.messageIdentifier + 'store <keyword> <url>'
 							}, {
 								'name': 'Remove',
-								'value': 'Removes a song' + "\n" 
+								'value': 'Removes a song' + "\n"
 									+ 'Usage: ' + bot.messageIdentifier + 'remove <id>' + "\n"
 									+ 'The ID can be obtained from List'
 							}
@@ -393,10 +393,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 					bot.listMusic(channelID, userID, keyword);
 				}
 				break;
-            case 'ping':
+			case 'ping':
 				bot.sendMessage({
-                    to: channelID,
-                    message: '!play <https://www.youtube.com/watch?v=dQw4w9WgXcQ>'
+					to: channelID,
+					message: '!play <https://www.youtube.com/watch?v=dQw4w9WgXcQ>'
 				});
 				break;
 			case 'play':
@@ -434,7 +434,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 				}
 				break;
 			default:
-            	break;
-        }
+				break;
+		}
 	}
 });
