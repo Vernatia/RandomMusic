@@ -73,7 +73,7 @@ function saveSong(channelID) {
 
 /**
  * @param {string} channelID
- * @param {[]]} rows
+ * @param {[]} rows
  */
 function removeSong(channelID, rows) {
 	if (rows.length != 1) {
@@ -100,7 +100,7 @@ function removeSong(channelID, rows) {
  * 
  * @param {string} channelID
  * @param {string} keyword
- * @param {[]]} rows 
+ * @param {[]} rows 
  */
 function displaySongs(channelID, keyword, rows) {
 	if (rows.length == 0) {
@@ -132,7 +132,7 @@ function displaySongs(channelID, keyword, rows) {
 /**
  * 
  * @param {string} channelID
- * @param {[]]} rows 
+ * @param {[]} rows 
  */
 function displayKeywords(channelID, rows) {
 	if (rows.length == 0) {
