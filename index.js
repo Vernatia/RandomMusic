@@ -50,7 +50,7 @@ function outputSong(channelID, keyword, rows) {
 						value: '!play ' + rows[i].url
 					}, {
 						name: 'Groovy bot:',
-						value: '!play ' + rows[i].url
+						value: '-play ' + rows[i].url
 					}, {
 						name: 'Just the song:',
 						value: rows[i].url
