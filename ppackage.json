@@ -1,0 +1,12 @@
+{
+	"name": "random-music",
+	"version": "0.0.1",
+	"description": "Random music bot",
+	"main": "index.js",
+	"author": "Vernatia",
+	"dependencies": {
+		"discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+		"sqlite3": "^5.0.0",
+		"winston": "^3.3.3"
+	}
+}
